@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2022b utf8
 
 PROTO placaIfam [
   field SFVec3f translation -0.2 -1 0.65

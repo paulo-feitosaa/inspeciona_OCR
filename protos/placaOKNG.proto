@@ -1,6 +1,6 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2022b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/geometries/protos/Rectangle.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/geometries/protos/Rectangle.proto"
 PROTO placaOKNG [
   field SFVec3f translation -2 -1 1
   field SFRotation rotation 0 0 1 0
