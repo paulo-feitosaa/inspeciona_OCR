@@ -1,0 +1,29 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/geometries/protos/Rectangle.proto"
+PROTO placaOKNG [
+  field SFVec3f translation -2 -1 1
+  field SFRotation rotation 0 0 1 0
+  field SFVec2f    size  0.3 0.3 
+  field SFString   name   "placaOK"
+  field MFString url ["textures/OK.png"]
+] {
+ Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url IS url
+        }
+	metalness 0
+      }
+      geometry Rectangle {
+        size IS size
+      }
+    }
+  ]
+  name IS name
+}
+}

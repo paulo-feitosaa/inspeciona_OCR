@@ -1,0 +1,36 @@
+#VRML_SIM R2023b utf8
+
+PROTO placaIfam [
+  field SFVec3f translation -0.2 -1 0.65
+  field SFRotation rotation 0 0 1 -1.57
+  field SFVec3f    size  0.3 0.3 0.01
+  field SFString   name   "placaIfam"
+  field MFString url ["0.jpg"]
+  field SFFloat roughness 0.1
+  field SFFloat metalness 0.8
+] {
+ Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url IS url
+        }
+        roughness IS roughness
+        metalness IS metalness
+      }
+      geometry DEF placaLogo Box {
+        size IS size
+      }
+    }
+  ]
+  name IS name
+  boundingObject USE placaLogo
+  physics Physics {
+    density -1
+    mass 0.08
+  }
+}
+}

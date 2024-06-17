@@ -1,0 +1,308 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/conveyors/protos/ConveyorBelt.proto"
+IMPORTABLE EXTERNPROTO "../protos/PlacaAplicacao.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/devices/sick/protos/SickS300.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/GalvanizedMetal.proto"
+IMPORTABLE EXTERNPROTO "../protos/placaIfam.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/universal_robots/protos/UR5e.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/geometries/protos/Rectangle.proto"
+EXTERNPROTO "../protos/placaOKNG.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/manhole/protos/SquareManhole.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/computers/protos/Monitor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/computers/protos/Keyboard.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/computers/protos/ComputerMouse.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/computers/protos/DesktopComputer.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/telephone/protos/OfficeTelephone.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/chairs/protos/WoodenChair.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/cabinet/protos/Cabinet.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/pallet/protos/WoodenPalletStack.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ThreadMetalPlate.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Roughcast.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/tools/protos/PlatformCart.proto"
+
+WorldInfo {
+  info [
+    "Simulation of an inspection system with OCR using pytesseract. The environment has an entrance conveyor where the plates are inserted. A camera positioned on top of the conveyor belt captures images of the plates and sends them to the OCR algorithm written in Python. A UR5e robot positioned at the end of the conveyor separates the approved and failed plates."
+    "Autor: Paulo Rafael R. Feitosa"
+  ]
+  title "Inspeção OCR com Pytesseract"
+  basicTimeStep 16
+}
+Viewpoint {
+  fieldOfView 0.9
+  orientation 0.15128649786994955 0.8938182048339557 -0.4221390911413568 0.7209596233747176
+  position -3.760659205807421 1.5154618345661166 3.6243267676703272
+  exposure 1.7
+}
+TexturedBackground {
+  texture "factory"
+}
+Floor {
+  size 5 5
+  appearance ThreadMetalPlate {
+  }
+}
+Monitor {
+  translation -0.270032 -2.03973 0.67
+  rotation 0 0 -1 -1.5699953071795862
+}
+ConveyorBelt {
+  size 1.4 0.4 0.6
+  speed -0.2
+}
+Robot {
+  children [
+    DistanceSensor {
+      translation -0.15 0.198 0.605
+      rotation 0 0 1 -1.57
+      lookupTable [
+        0 0 0
+        0.4 1000 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -1.53 -1.3 0.605
+      name "removeNG"
+      lookupTable [
+        0 0 0
+        0.4 1000 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -1.53 1.3 0.605
+      name "removeOK"
+      lookupTable [
+        0 0 0
+        0.4 1000 0
+      ]
+      type "infra-red"
+    }
+    Camera {
+      translation 0 -0.002 1.2
+      rotation 0 1 0 1.57
+      fieldOfView 1
+      width 400
+      height 300
+      focus Focus {
+        focalDistance 0.49
+        focalLength 5.8
+        maxFocalDistance 5
+        minFocalDistance 0.1
+      }
+    }
+    SickS300 {
+      translation -0.08 0 1.15986
+      rotation 0 0.9999999999999999 0 3.14
+    }
+    Emitter {
+      channel -1
+    }
+    Display {
+      width 400
+      height 300
+    }
+  ]
+  controller "control_OCR_interno"
+  supervisor TRUE
+}
+Solid {
+  translation -0.005 0.32 0.6
+  rotation 0 0 1 3.14
+  children [
+    Group {
+      children [
+        Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Box {
+            size 0.04 0.04 1.3
+          }
+        }
+        Pose {
+          translation 0 0.23 0.65
+          children [
+            Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.04 0.5 0.04
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+DEF baseRobo SolidBox {
+  translation -1.2 -0.03 0.3
+  size 0.4 0.4 0.6
+  appearance GalvanizedMetal {
+  }
+}
+DEF roboUR5e UR5e {
+  translation -1.2 -0.13 0.6
+  controller "UR5eControllerTCC"
+  supervisor TRUE
+  toolSlot [
+    DEF VACUM Pose {
+      rotation 0 1 0 3.14
+    }
+    Receiver {
+      channel -1
+    }
+  ]
+}
+DEF esteiraOK ConveyorBelt {
+  translation -1.33 0.85 0
+  rotation 0 0 1 1.57
+  name "esteiraAprovado"
+  size 1 0.4 0.6
+  speed 0
+}
+DEF esteiraNG ConveyorBelt {
+  translation -1.33 -0.85 0
+  rotation 0 0 1 1.57
+  name "esteiraNG"
+  size 1 0.4 0.6
+  speed 0
+}
+Solid {
+  translation -1.57 0.85 0.3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url [
+            "../protos/textures/OK.png"
+          ]
+        }
+        metalness 0
+      }
+      geometry Rectangle {
+        size 0.4 0.4
+      }
+    }
+  ]
+  name "solid(1)"
+}
+placaOKNG {
+  translation -1.57 -0.85 0.3
+  size 0.4 0.4
+  name "placaNG"
+  url [
+    "../protos/textures/NG.png"
+  ]
+}
+Table {
+  translation 0 -2 0
+  size 1.2 0.7 0.66
+  feetSize 0.05 0.05
+  trayAppearance PBRAppearance {
+    baseColor 0.926 0.912 0.698
+    roughness 0.8
+    metalness 0
+  }
+  legAppearance BrushedAluminium {
+    colorOverride 0.333 0.341 0.325
+  }
+}
+SquareManhole {
+  translation 0 1.1 -0.03
+}
+Keyboard {
+  translation -0.239872 -1.83977 0.67
+  rotation 0 0 1 1.57
+}
+ComputerMouse {
+  translation -0.510144 -1.82049 0.67
+  rotation 0 0 1 -1.57
+}
+DesktopComputer {
+  translation -0.239976 -1.96976 0
+  rotation 0 0 1 1.57
+}
+OfficeTelephone {
+  translation 0.22 -2 0.67
+  rotation 0 0 1 1.57
+}
+WoodenChair {
+  translation 0.138001 -1.61842 0
+  rotation 0 0 1 -1.7017003061004252
+}
+Cabinet {
+  translation 1.61895 -2.24149 0
+  rotation 0 0 1 1.57
+}
+FireExtinguisher {
+  translation 2.1 -0.58 0
+}
+WoodenPalletStack {
+  translation 1.82751 1.38377 0
+  rotation 0 0 -1 -1.7016996938995748
+  palletNumber 4
+  lateralMisalignment 0.2
+  longitudinalMisalignment 0.01
+}
+DEF WALL1 Pose {
+  translation 0 2.5 1
+  rotation 1 0 0 1.5708
+  children [
+    DEF wall_long Shape {
+      appearance Roughcast {
+      }
+      geometry Plane {
+        size 5 2
+      }
+    }
+  ]
+}
+DEF WALL2 Pose {
+  translation 0 -2.5 1
+  rotation 1 0 0 -1.5708
+  children [
+    USE wall_long
+  ]
+}
+DEF WALL3 Pose {
+  translation 2.5 0 1
+  rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
+  children [
+    DEF wall_short Shape {
+      appearance Roughcast {
+      }
+      geometry Plane {
+        size 5 2
+      }
+    }
+  ]
+}
+DEF WALL4 Pose {
+  translation -2.5 0 1
+  rotation 0.5773506025225371 0.5773496025232256 0.5773506025225371 2.0944
+  children [
+    USE wall_short
+  ]
+}
+CardboardBox {
+  translation -2.05 2.09 0.3
+  size 0.4 0.4 0.4
+}
+CardboardBox {
+  translation -1.63 2.11 0.3
+  name "cardboard box(1)"
+  size 0.3 0.3 0.4
+}
+PlatformCart {
+  translation -1.9 2.1 0
+}
